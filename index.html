@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <style>
+        #app {
+
+            width: 100vw;
+            min-height: 100vh;
+            /* font-weight: 400; */
+            /* font-size: 2rem; */
+
+        }
+    </style>
+
+</head>
+
+<body class=" pink lighten-5">
+
+    <div id="app">
+        <h1 class="center pink-text  text-darken-4">Sharvari's ToDo</h1>
+        <h3 class="center">{{ donecount }} of {{ todos.length }} completed</h3>
+        <div class="container">
+            <ul class="collection">
+                <li @click="toggleDone(idx)" class="collection-item " :class="todo.done ? 'active' : ''"
+                    v-for="(todo, idx) in todos">
+                    <h5> {{ todo.title }}
+                        <i @click="deletetodo(idx)" class="material-icons red-text right">close</i>
+
+                    </h5>
+                    <p> {{ todo.text }} </p>
+                </li>
+
+            </ul>
+
+            <input type="text" v-model="newtodo.title" placeholder="title">
+            <input type="text" v-model="newtodo.text" placeholder="body">
+            <button @click="addtodo" class="btn pink">Add to do Item
+
+            </button>
+        </div>
+    </div>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+
+            data: {
+                todos: [
+                    {
+                        text: 'patato',
+                        title: 'vjnmhvn',
+                        done: false
+                    },
+                    {
+                        text: 'udta',
+                        title: 'vjnmhvn',
+                        done: false
+                    },
+                    {
+                        text: 'vmh',
+                        title: 'vjnmhvn',
+                        done: true
+                    }
+                ],
+                newtodo: {
+                    title: '', text: ''
+                }
+            },
+            methods: {
+                toggleDone(index) {
+                    this.todos[index].done = !this.todos[index].done
+                },
+                addtodo() {
+
+                    if (this.newtodo.title != '' && this.newtodo.text != '') {
+
+
+                        this.todos.push({
+                            text: this.newtodo.text,
+                            title: this.newtodo.title,
+                            done: false
+                        })
+                        this.newtodo.text = ''
+                        this.newtodo.title = ''
+                    } else {
+                        alert('Please enter something.')
+                    }
+                },
+                deletetodo(idx) {
+                    this.todos.splice(idx, 1)
+                }
+
+            },
+            computed: {
+                donecount() {
+                    return this.todos.filter(item=>item.done).length
+                }
+            }
+        })
+    </script>
+</body>
+
+
+</html>
